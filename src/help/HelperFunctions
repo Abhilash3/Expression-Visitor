@@ -2,8 +2,8 @@ package help;
 
 import java.util.ArrayList;
 
-import com.virtusa.interfaces.IVisitable;
-import com.virtusa.vo.*;
+import interfaces.IVisitable;
+import vo.*;
 
 public final class HelperFunctions {
 	
