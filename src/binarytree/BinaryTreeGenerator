@@ -2,10 +2,10 @@ package binarytree;
 
 import java.util.ArrayList;
 
-import com.virtusa.help.HelperFunctions;
-import com.virtusa.interfaces.IVisitable;
-import com.virtusa.vo.Parenthesis;
-import com.virtusa.vo.TreeNode;
+import help.HelperFunctions;
+import interfaces.IVisitable;
+import vo.Parenthesis;
+import vo.TreeNode;
 
 public class BinaryTreeGenerator {
 	
