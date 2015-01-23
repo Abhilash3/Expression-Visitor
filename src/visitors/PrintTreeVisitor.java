@@ -1,4 +1,4 @@
-package com.virtusa.visitors;
+package visitors;
 
 import interfaces.IVisitor;
 import vo.Parenthesis;
