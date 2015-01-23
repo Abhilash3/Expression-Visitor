@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import binarytree.BinaryTreeGenerator;
 import interfaces.IVisitable;
-import visitor.*;
+import visitors.*;
 import vo.TreeNode;
 
 public class Main {
