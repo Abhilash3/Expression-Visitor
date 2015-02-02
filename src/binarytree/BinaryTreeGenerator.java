@@ -1,7 +1,9 @@
 package binarytree;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import exception.ImproperQueryException;
 import help.HelperFunctions;
 import interfaces.IVisitable;
 import vo.Parenthesis;
@@ -9,12 +11,31 @@ import vo.TreeNode;
 
 public class BinaryTreeGenerator {
 	
-	public IVisitable generateBinaryTree(ArrayList<IVisitable> expression) {
+	private int _end;
+	
+	public IVisitable generateBinaryTree(ArrayList<String> oldExpression) {
+		
+		ArrayList<IVisitable> expression = new ArrayList<IVisitable>();
 		
 		try {
-			checkExpression(expression);
-		} catch (Exception e) {
-			e.printStackTrace();
+			IVisitable firstOperand = getOneVisitable(oldExpression, 0);
+			expression.add(firstOperand);
+			for(int i = 1; i < oldExpression.size(); i = _end) {
+				String operator = oldExpression.get(i);
+				if (!HelperFunctions.isOperator(operator)) {
+					throw new ImproperQueryException(oldExpression, i);
+				}
+				expression.add(new TreeNode(operator));
+				IVisitable operand = getOneVisitable(oldExpression, i + 1);
+				expression.add(operand);
+			}
+		} catch (ImproperQueryException e) {
+			List<String> list = e.getExpression();
+			int startLocation = e.getStartLocation();
+			int endLocation = e.getEndLocation();
+			System.out.print("Error in Expression: " + printList(list.subList(0, startLocation)));
+			System.out.print(" [" + printList(list.subList(startLocation, endLocation + 1)) + "] ");
+			System.out.print(printList(list.subList(endLocation + 1, e.getExpression().size())) + "\n");
 			return null;
 		}
 		
@@ -38,59 +59,42 @@ public class BinaryTreeGenerator {
 		return expression.remove(0);
 	}
 	
-	private void checkExpression(ArrayList<IVisitable> expression) throws Exception {
+	private IVisitable getOneVisitable(ArrayList<String> expression, int i) throws ImproperQueryException {
 		
-		IVisitable firstOperand = expression.get(0);
-		if (HelperFunctions.isOperator(firstOperand)) {
-			throw new Exception();
-		} else if (HelperFunctions.getPrecedence(firstOperand) == 3) {
-			if (firstOperand.toString().equals(")")) {
-				throw new Exception();
-			} else {
-				
-				int endLocation = HelperFunctions.getClosingParenthesis(expression, 0);
-				if (endLocation == 1) {
-					throw new Exception();
+		String operand = expression.get(i);
+		IVisitable visitable = new TreeNode(operand);
+		_end = i + 1;
+		if (HelperFunctions.isOperator(operand)) {
+			throw new ImproperQueryException(expression, i);
+		} else if (HelperFunctions.getPrecedence(operand) == 3) {
+			if (operand.equals(")")) {
+				throw new ImproperQueryException(expression, i);
+			} else {				
+				int endLocation = HelperFunctions.getClosingParenthesis(expression, i);
+				if (endLocation == i + 1) {
+					throw new ImproperQueryException(expression, i, i + 1);
 				}
 				
-				IVisitable subTree = generateBinaryTree(new ArrayList<IVisitable>(expression.subList(1, endLocation)));
+				IVisitable subTree = generateBinaryTree(new ArrayList<String>(expression.subList(i + 1, endLocation)));
+				if (subTree == null) {
+					throw new ImproperQueryException(expression, i + 1, endLocation - 1);
+				}
 				Parenthesis paren = new Parenthesis(subTree);
+				visitable = paren;
 				
-				for(; 0 < endLocation; endLocation--) {
-					expression.remove(endLocation);
-				}
-				expression.set(0, paren);
+				_end = endLocation + 1;
 			}
 		}
+		return visitable;
 		
-		for (int i = 1; i < expression.size(); i += 2) {
-			IVisitable operator = expression.get(i);
-			if (!HelperFunctions.isOperator(operator)) {
-				throw new Exception();
-			}
-			IVisitable operand = expression.get(i + 1);
-			if (HelperFunctions.isOperator(operand)) {
-				throw new Exception();
-			} else if (HelperFunctions.getPrecedence(operand) == 3) {
-				if (firstOperand.toString().equals(")")) {
-					throw new Exception();
-				} else {
-					
-					int endLocation = HelperFunctions.getClosingParenthesis(expression, i + 1);
-					if (endLocation == i + 2) {
-						throw new Exception();
-					}
-					IVisitable subTree = generateBinaryTree(new ArrayList<IVisitable>(expression.subList(i + 2, endLocation)));
-					Parenthesis paren = new Parenthesis(subTree);
-					
-					for(; i + 1 < endLocation; endLocation--) {
-						expression.remove(endLocation);
-					}
-					expression.set(i + 1, paren);
-				}
-			}
+	}
+	
+	private String printList(List<String> list) {
+		String output = "";
+		for(int i = 0; i < list.size(); i++) {
+			output += " " + list.get(i) + " ";
 		}
-		
+		return output;
 	}
 
 }
