@@ -2,26 +2,22 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import binarytree.BinaryTreeGenerator;
 import interfaces.IVisitable;
-import visitors.*;
-import vo.TreeNode;
+import visitor.*;
 
 public class Main {
 
 	public static void main(String... args) {
 		
-		System.out.println("Enter your Expression: ");
-		String str = new Scanner(System.in).nextLine();
-		ArrayList<String> preDefinedExpression = new ArrayList<String>(Arrays.asList(str.split(",")));
-		ArrayList<IVisitable> expression = new ArrayList<IVisitable>();
+		String str = "10,+,(,1,+,(,1,+,(,10,-,8,),+,20,/,4,),*,2,),+,(,10,+,(,5,*,6,),),+,(,23,+,7,-,3,-,2,),*,4";
 		
-		for(int i = 0; i < preDefinedExpression.size(); i++) {
-			expression.add(new TreeNode(preDefinedExpression.get(i)));
-		}
+		ArrayList<String> expression = new ArrayList<String>(Arrays.asList(str.split(",")));
 		
 		IVisitable tree = new BinaryTreeGenerator().generateBinaryTree(expression);
+		if (tree == null) {
+			return;
+		}
 
 		tree.accept(new PrintExpVisitor());
 		System.out.println("\n");
