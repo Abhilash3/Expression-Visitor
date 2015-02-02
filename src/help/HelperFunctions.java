@@ -34,37 +34,15 @@ public final class HelperFunctions {
 		return precedence;
 	}
 	
-	public static boolean isOperator(IVisitable visitable) {
-		if (visitable instanceof TreeNode) {
-			return isOperator((TreeNode) visitable);
-		} else {
-			return isOperator((Parenthesis) visitable);
-		}
-	}
-	
-	private static boolean isOperator(TreeNode node) {
-		if (node.getLeftNode() == null && node.getRightNode() == null) {
-			return isOperator(node.getRoot());
-		}
-		return false;
-	}
-	
-	private static boolean isOperator(Parenthesis paren) {
-		if (paren.getNode() == null) {
-			return false;
-		}
-		return isOperator((TreeNode) paren.getNode());
-	}
-	
-	private static boolean isOperator(String str) {
+	public static boolean isOperator(String str) {
 		return str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/");
 	}
 
-	public static int getClosingParenthesis(ArrayList<IVisitable> expression,
+	public static int getClosingParenthesis(ArrayList<String> expression,
 			int startLocation) {
 		int endLocation = startLocation + 1;
 		for(int numOpenPara = 1; endLocation < expression.size(); endLocation++) {
-			IVisitable object = expression.get(endLocation);
+			String object = expression.get(endLocation);
 			if (object.toString().equals("(")) {
 				numOpenPara++;
 			} else if (object.toString().equals(")")) {
@@ -75,5 +53,17 @@ public final class HelperFunctions {
 			}
 		}
 		return endLocation;
+	}
+
+	public static int getPrecedence(String str) {
+		int precedence = 0;
+		if (str.equals("(") || str.equals(")")) {
+			precedence = 3;
+		} else if (str.equals("*") || str.equals("/")) {
+			precedence = 2;
+		} else if (str.equals("+") || str.equals("-")) {
+			precedence = 1;
+		}
+		return precedence;
 	}
 }
