@@ -35,7 +35,7 @@ public class BinaryTreeGenerator {
 			int endLocation = e.getEndLocation();
 			System.out.print("Error in Expression: " + printList(list.subList(0, startLocation)));
 			System.out.print(" [" + printList(list.subList(startLocation, endLocation + 1)) + "] ");
-			System.out.print(printList(list.subList(endLocation + 1, e.getExpression().size())) + "\n");
+			System.out.println(printList(list.subList(endLocation + 1, e.getExpression().size())));
 			return null;
 		}
 		
@@ -47,8 +47,8 @@ public class BinaryTreeGenerator {
 		for(int i = 2; i > 0; i--) {
 			for(int location = precedence.indexOf(i); location != -1; location = precedence.indexOf(i)) {
 				IVisitable node = new TreeNode(expression.remove(location - 1),
-												expression.remove(location - 1).toString(),
-												expression.remove(location - 1));
+								expression.remove(location - 1).toString(),
+								expression.remove(location - 1));
 				precedence.remove(location);
 				precedence.remove(location);
 				
@@ -79,8 +79,8 @@ public class BinaryTreeGenerator {
 				if (subTree == null) {
 					throw new ImproperQueryException(expression, i + 1, endLocation - 1);
 				}
-				Parenthesis paren = new Parenthesis(subTree);
-				visitable = paren;
+				
+				visitable = new Parenthesis(subTree);
 				
 				_end = endLocation + 1;
 			}
