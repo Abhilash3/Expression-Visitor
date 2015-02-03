@@ -18,7 +18,7 @@ public class BinaryTreeGenerator {
 		ArrayList<IVisitable> expression = new ArrayList<IVisitable>();
 		
 		try {
-			IVisitable firstOperand = getOneVisitable(oldExpression, 0);
+			IVisitable firstOperand = getOneOperand(oldExpression, 0);
 			expression.add(firstOperand);
 			for(int i = 1; i < oldExpression.size(); i = _end) {
 				String operator = oldExpression.get(i);
@@ -26,7 +26,7 @@ public class BinaryTreeGenerator {
 					throw new ImproperQueryException(oldExpression, i);
 				}
 				expression.add(new TreeNode(operator));
-				IVisitable operand = getOneVisitable(oldExpression, i + 1);
+				IVisitable operand = getOneOperand(oldExpression, i + 1);
 				expression.add(operand);
 			}
 		} catch (ImproperQueryException e) {
@@ -59,7 +59,7 @@ public class BinaryTreeGenerator {
 		return expression.remove(0);
 	}
 	
-	private IVisitable getOneVisitable(ArrayList<String> expression, int i) throws ImproperQueryException {
+	private IVisitable getOneOperand(ArrayList<String> expression, int i) throws ImproperQueryException {
 		
 		String operand = expression.get(i);
 		IVisitable visitable = new TreeNode(operand);
