@@ -5,9 +5,9 @@ import java.util.List;
 
 import exception.ImproperQueryException;
 import help.HelperFunctions;
-import interfaces.IVisitable;
-import vo.Parenthesis;
-import vo.TreeNode;
+import vo.visitable.IVisitable;
+import vo.visitable.Parenthesis;
+import vo.visitable.TreeNode;
 
 public class BinaryTreeGenerator {
 	

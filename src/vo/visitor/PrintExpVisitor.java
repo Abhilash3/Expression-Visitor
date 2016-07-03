@@ -1,8 +1,7 @@
-package visitors;
+package vo.visitor;
 
-import interfaces.IVisitor;
-import vo.Parenthesis;
-import vo.TreeNode;
+import vo.visitable.Parenthesis;
+import vo.visitable.TreeNode;
 
 public class PrintExpVisitor implements IVisitor {
 

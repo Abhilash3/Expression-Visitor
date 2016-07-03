@@ -1,12 +1,12 @@
-package visitors;
+package vo.visitor;
 
-import interfaces.IVisitor;
-import vo.Parenthesis;
-import vo.TreeNode;
+import vo.visitable.Parenthesis;
+import vo.visitable.TreeNode;
 
 public class PrintTreeVisitor implements IVisitor {
 	
 	private int level;
+	private String PRE = "|------ ";
 	
 	public PrintTreeVisitor() {
 		this.level = 0;
@@ -24,7 +24,7 @@ public class PrintTreeVisitor implements IVisitor {
 			for (int i = 0; i < level - 1; i++) {
 				System.out.print("|\t");
 			}
-			System.out.print("|-------");
+			System.out.print(PRE);
 		}
 		System.out.println(treeNode.getRoot());
 
@@ -41,7 +41,7 @@ public class PrintTreeVisitor implements IVisitor {
 			for (int i = 0; i < level - 1; i++) {
 				System.out.print("|\t");
 			}
-			System.out.print("|-------");
+			System.out.print(PRE);
 		}
 		System.out.println("(");
 		level++;
@@ -51,7 +51,7 @@ public class PrintTreeVisitor implements IVisitor {
 			for (int i = 0; i < level - 1; i++) {
 				System.out.print("|\t");
 			}
-			System.out.print("|-------");
+			System.out.print(PRE);
 		}
 		System.out.println(")");
 	}

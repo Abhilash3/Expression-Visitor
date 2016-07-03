@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import binarytree.BinaryTreeGenerator;
-import interfaces.IVisitable;
-import visitor.*;
+import vo.visitable.IVisitable;
+import vo.visitor.EvaluateVisitor;
+import vo.visitor.PrintExpVisitor;
+import vo.visitor.PrintTreeVisitor;
 
 public class Main {
 

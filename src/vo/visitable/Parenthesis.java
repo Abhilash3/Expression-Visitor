@@ -1,7 +1,6 @@
-package vo;
+package vo.visitable;
 
-import interfaces.IVisitable;
-import interfaces.IVisitor;
+import vo.visitor.IVisitor;
 
 public class Parenthesis implements IVisitable {
 	

@@ -2,8 +2,9 @@ package help;
 
 import java.util.ArrayList;
 
-import interfaces.IVisitable;
-import vo.*;
+import vo.visitable.IVisitable;
+import vo.visitable.Parenthesis;
+import vo.visitable.TreeNode;
 
 public final class HelperFunctions {
 	
@@ -20,19 +21,26 @@ public final class HelperFunctions {
 	}
 
 	private static int getPrecedence(TreeNode node) {
-		int precedence = 0;
 		if (node.getLeftNode() == null && node.getRightNode() == null) {
-			String str = node.getRoot();
-			if (str.equals("(") || str.equals(")")) {
-				precedence = 3;
-			} else if (str.equals("*") || str.equals("/")) {
-				precedence = 2;
-			} else if (str.equals("+") || str.equals("-")) {
-				precedence = 1;
-			}
+			return getPrecedence(node.getRoot());
 		}
-		return precedence;
+		return 0;
 	}
+
+    public static int getPrecedence(String str) {
+        switch (str) {
+            case "(":
+            case ")":
+                return 3;
+            case "*":
+            case "/":
+                return 2;
+            case "+":
+            case "-":
+                return 1;
+        }
+        return 0;
+    }
 	
 	public static boolean isOperator(String str) {
 		return str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/");
@@ -42,28 +50,19 @@ public final class HelperFunctions {
 			int startLocation) {
 		int endLocation = startLocation + 1;
 		for(int numOpenPara = 1; endLocation < expression.size(); endLocation++) {
-			String object = expression.get(endLocation);
-			if (object.toString().equals("(")) {
-				numOpenPara++;
-			} else if (object.toString().equals(")")) {
-				numOpenPara--;
-			}
+			switch (expression.get(endLocation)) {
+                case "(":
+                    numOpenPara++;
+                    break;
+                case ")":
+                    numOpenPara--;
+                    break;
+            }
+
 			if (numOpenPara == 0) {
 				break;
 			}
 		}
 		return endLocation;
-	}
-
-	public static int getPrecedence(String str) {
-		int precedence = 0;
-		if (str.equals("(") || str.equals(")")) {
-			precedence = 3;
-		} else if (str.equals("*") || str.equals("/")) {
-			precedence = 2;
-		} else if (str.equals("+") || str.equals("-")) {
-			precedence = 1;
-		}
-		return precedence;
 	}
 }
