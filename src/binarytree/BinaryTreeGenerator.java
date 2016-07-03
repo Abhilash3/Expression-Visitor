@@ -20,7 +20,7 @@ public class BinaryTreeGenerator {
 		try {
 			IVisitable firstOperand = getOneOperand(oldExpression, 0);
 			expression.add(firstOperand);
-			for(int i = 1; i < oldExpression.size(); i = _end) {
+			for(int i = _end; i < oldExpression.size(); i = _end) {
 				String operator = oldExpression.get(i);
 				if (!HelperFunctions.isOperator(operator)) {
 					throw new ImproperQueryException(oldExpression, i);

@@ -2,6 +2,7 @@ package help;
 
 import java.util.ArrayList;
 
+import vo.Operator;
 import vo.visitable.IVisitable;
 import vo.visitable.Parenthesis;
 import vo.visitable.TreeNode;
@@ -43,11 +44,10 @@ public final class HelperFunctions {
     }
 	
 	public static boolean isOperator(String str) {
-		return str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/");
+		return Operator.isOperator(str);
 	}
 
-	public static int getClosingParenthesis(ArrayList<String> expression,
-			int startLocation) {
+	public static int getClosingParenthesis(ArrayList<String> expression, int startLocation) {
 		int endLocation = startLocation + 1;
 		for(int numOpenPara = 1; endLocation < expression.size(); endLocation++) {
 			switch (expression.get(endLocation)) {

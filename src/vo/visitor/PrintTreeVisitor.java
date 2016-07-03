@@ -6,7 +6,10 @@ import vo.visitable.TreeNode;
 public class PrintTreeVisitor implements IVisitor {
 	
 	private int level;
-	private String PRE = "|------ ";
+    private static String PRE = "|------ ";
+    private static String LEVEL = "|\t";
+    private static String OPEN = "(";
+    private static String CLOSE = ")";
 	
 	public PrintTreeVisitor() {
 		this.level = 0;
@@ -20,12 +23,7 @@ public class PrintTreeVisitor implements IVisitor {
 			level--;
 		}
 		
-		if (level > 0) {
-			for (int i = 0; i < level - 1; i++) {
-				System.out.print("|\t");
-			}
-			System.out.print(PRE);
-		}
+		perLevel();
 		System.out.println(treeNode.getRoot());
 
 		if (treeNode.getLeftNode() != null) {
@@ -37,23 +35,24 @@ public class PrintTreeVisitor implements IVisitor {
 
 	@Override
 	public void visit(Parenthesis parenthesis) {
-		if (level > 0) {
-			for (int i = 0; i < level - 1; i++) {
-				System.out.print("|\t");
-			}
-			System.out.print(PRE);
-		}
-		System.out.println("(");
+		perLevel();
+		System.out.println(OPEN);
+
 		level++;
 		parenthesis.getNode().accept(this);
 		level--;
-		if (level > 0) {
-			for (int i = 0; i < level - 1; i++) {
-				System.out.print("|\t");
-			}
-			System.out.print(PRE);
-		}
-		System.out.println(")");
+
+        perLevel();
+		System.out.println(CLOSE);
 	}
+
+    private void perLevel() {
+        if (level > 0) {
+            for (int i = 0; i < level - 1; i++) {
+                System.out.print(LEVEL);
+            }
+            System.out.print(PRE);
+        }
+    }
 
 }
